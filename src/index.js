@@ -26,14 +26,14 @@ function calculateAll() {
   // end of test
 
   // ITERATION 2
-  const allProducts = document.getElementsByClassName('product');
+  const allProducts = document.getElementsByClassName("product");
   let totalPrice = 0;
 
-  for (let i = 0; i< allProducts.length; i++){
+  for (let i = 0; i < allProducts.length; i++) {
     totalPrice += updateSubtotal(allProducts[i]);
   }
   // ITERATION 3
-  let totalValue = document.querySelector('#total-value span');
+  let totalValue = document.querySelector("#total-value span");
   totalValue.textContent = `${totalPrice}`;
 }
 
@@ -43,17 +43,99 @@ function removeProduct(event) {
   const target = event.currentTarget;
   console.log("The target in remove is:", target);
   //... your code goes here
+  target.parentNode.parentNode.parentNode.removeChild(
+    target.parentNode.parentNode
+  );
+  calculateAll();
 }
 
 // ITERATION 5
 
 function createProduct() {
-  //... your code goes here
+  //accessing the input value from the user
+  let givenProductName = document.querySelector(
+    '.create-product input[type="text"]'
+  ).value;
+
+  let givenProductPrice = document.querySelector(
+    '.create-product input[type="number"]'
+  ).value;
+
+  //create new row
+  let newItemRow = document.createElement("tr");
+  newItemRow.setAttribute("class", "product");
+
+  //create individual columns
+  for (let i = 0; i < 5; i++) {
+    const td = document.createElement("td");
+    newItemRow.appendChild(td);
+  }
+
+  // create content inside each td
+  // first column
+  newItemRow.children[0].setAttribute("class", "name");
+  const productNameSpan = document.createElement("span");
+  productNameSpan.textContent = givenProductName;
+  newItemRow.children[0].appendChild(productNameSpan);
+
+  //second column
+  newItemRow.children[1].setAttribute("class", "price");
+  const priceSpan = document.createElement("span");
+  priceSpan.textContent = givenProductPrice;
+  newItemRow.children[1].innerHTML = "$";
+  newItemRow.children[1].appendChild(priceSpan);
+ 
+  //third column
+  newItemRow.children[2].setAttribute("class", "quantity");
+  const newQuantInput = document.createElement("input");
+  newQuantInput.setAttribute("type", "number");
+  newQuantInput.setAttribute("value", "0");
+  newQuantInput.setAttribute("min", "0");
+  newQuantInput.setAttribute("placeholder", "Quantity");
+  newItemRow.children[2].appendChild(newQuantInput);
+
+  //forth column
+  newItemRow.children[3].setAttribute("class", "subtotal");
+  const subTotal = document.createElement("span");
+  subTotal.textContent = "0";
+  newItemRow.children[3].innerHTML = "$";
+  newItemRow.children[3].appendChild(subTotal);
+
+  //five column
+  newItemRow.children[4].setAttribute("class", "action");
+  const actionBtn = document.createElement("button");
+  actionBtn.setAttribute("class", "btn btn-remove");
+  actionBtn.textContent = "Remove";
+  newItemRow.children[4].appendChild(actionBtn);
+  //append new tr into tbody
+  const tbody = document.querySelector("#cart tbody");
+  tbody.appendChild(newItemRow);
+
+  document.querySelector(
+    '.create-product input[type="text"]'
+  ).value = "";
+
+  document.querySelector(
+    '.create-product input[type="number"]'
+  ).value = "0";
+
+  //still looping the remove funciton, to keep the index update-to-date
+  const removal = document.getElementsByClassName("btn btn-remove");
+  for (let i = 0; i < removal.length; i++) {
+    removal[i].addEventListener("click", removeProduct);
+  }
 }
 
 window.addEventListener("load", () => {
   const calculatePricesBtn = document.getElementById("calculate");
   calculatePricesBtn.addEventListener("click", calculateAll);
 
+  const removal = document.getElementsByClassName("btn btn-remove");
+  for (let i = 0; i < removal.length; i++) {
+    removal[i].addEventListener("click", removeProduct);
+  }
+
+  const createNewBtn = document.getElementById("create");
+  createNewBtn.addEventListener("click", createProduct);
   //... your code goes here
 });
