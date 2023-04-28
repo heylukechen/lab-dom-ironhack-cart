@@ -45,6 +45,12 @@ table input[type='number'] {
   border: 0;
   border-radius: 0.25em;
   cursor: pointer;
+  background-color: #ffffff;
+}
+
+.btn-disable {
+  background-color: #dadada;
+  color: #a5a5a5;
 }
 
 .btn-success,

@@ -46,6 +46,7 @@ function removeProduct(event) {
   target.parentNode.parentNode.parentNode.removeChild(
     target.parentNode.parentNode
   );
+  //calculate after removing a line
   calculateAll();
 }
 
@@ -81,10 +82,10 @@ function createProduct() {
   //second column
   newItemRow.children[1].setAttribute("class", "price");
   const priceSpan = document.createElement("span");
-  priceSpan.textContent = givenProductPrice;
+  priceSpan.textContent = Number(givenProductPrice).toFixed(2);
   newItemRow.children[1].innerHTML = "$";
   newItemRow.children[1].appendChild(priceSpan);
- 
+
   //third column
   newItemRow.children[2].setAttribute("class", "quantity");
   const newQuantInput = document.createElement("input");
@@ -111,13 +112,9 @@ function createProduct() {
   const tbody = document.querySelector("#cart tbody");
   tbody.appendChild(newItemRow);
 
-  document.querySelector(
-    '.create-product input[type="text"]'
-  ).value = "";
+  document.querySelector('.create-product input[type="text"]').value = "";
 
-  document.querySelector(
-    '.create-product input[type="number"]'
-  ).value = "0";
+  document.querySelector('.create-product input[type="number"]').value = "0";
 
   //still looping the remove funciton, to keep the index update-to-date
   const removal = document.getElementsByClassName("btn btn-remove");
@@ -139,3 +136,33 @@ window.addEventListener("load", () => {
   createNewBtn.addEventListener("click", createProduct);
   //... your code goes here
 });
+
+// let createNewBtn = document.getElementById("create");
+// createNewBtn.classList.add("btn-disable");
+// // createNewBtn.disabled = true;
+
+// let givenProductName = document.querySelector(
+//   '.create-product input[type="text"]'
+// );
+
+// let givenProductPrice = document.querySelector(
+//   '.create-product input[type="number"]'
+// );
+
+// console.log(givenProductName);
+
+// function checkInput() {
+//   if (givenProductName.value !== null && givenProductPrice !== null) {
+//     createNewBtn.setAttribute("disabled", false);
+//   } else {
+//     createNewBtn.setAttribute("disabled", true);
+//   }
+// }
+
+// console.log(createNewBtn, typeof createNewBtn);
+// console.log(givenProductName.value, typeof givenProductName);
+// console.log(givenProductPrice.value, typeof givenProductPrice);
+
+// givenProductName.addEventListener("input", checkInput);
+// givenProductPrice.addEventListener("input", checkInput);
+// createNewBtn.addEventListener("click", createProduct);
